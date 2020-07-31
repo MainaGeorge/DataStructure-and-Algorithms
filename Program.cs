@@ -1,125 +1,397 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace dojo
 {
-
-    public class Kata
+    internal class Program
     {
-        public static string Pattern(int n)
+        private static void Main()
         {
-            var result = new StringBuilder(string.Empty);
-
-            if (n < 1)
+            Console.WriteLine(MemoizeFib(160));
+        }
+        private static readonly Dictionary<int, int> Cache = new Dictionary<int, int>();
+        private static int MemoizeFib(int n)
+        {
+            if (n == 2 || n == 3)
             {
-                return result.ToString();
+                return 1;
             }
 
-            for(var i=1; i<=n; i++)
+            if (Cache.ContainsKey(n))
             {
-                for(var j=1; j<=i; j++)
+                return Cache[n];
+            }
+            else
+            {
+                Cache[n] = MemoizeFib(n - 1) + MemoizeFib(n - 2);
+                return Cache[n];
+            }
+        }
+        private static int FibSequence(int n)
+        {
+            if (n == 2 || n == 3)
+            {
+                return 1;
+            }
+
+            return FibSequence(n - 1) + FibSequence(n - 2);
+        }
+        private static int FindPossibleNumberOfTimesSumsToZero(IEnumerable<int> first,
+            IEnumerable<int> second, IEnumerable<int> third, IEnumerable<int> fourth)
+        {
+            // Given four arrays a, b, c and d, find how many possible combinations
+            // such that if we took an element from each array and added them together the result would be 0.
+            var results = new Dictionary<int, int>(); //this will hold sum of two elements from two arrays and the number of times it repeats throughout the calculation
+
+            foreach (var num in first)
+            {
+                foreach (var num2 in second)
                 {
-                    result.Append(i.ToString());
+                    var currentSum = num + num2;
+
+                    if (results.ContainsKey(currentSum))
+                    {
+                        results[currentSum]++;
+                    }
+                    else
+                    {
+                        results[currentSum] = 1;
+                    }
                 }
-                result.Append("\n");
             }
-    
-            return result.ToString().Trim();
+
+            var numberOfCombinations = third.Sum(num => fourth.Select(num2 => -(num + num2)).Where(currentSum => results.ContainsKey(currentSum)).Sum(currentSum => results[currentSum]));
+            return numberOfCombinations;
         }
-
-        public static string PatternDescending(int n)
+        private static IEnumerable<IEnumerable<string>> GroupAnagrams(IEnumerable<string> source)
         {
-            var result = new StringBuilder(string.Empty);
-            if (n < 1)
-            {
-                return result.ToString();
-            }
+            var anagramsGroupingsContainer = new Dictionary<string, List<string>>();
 
-            for (var i = 1; i <= n ; i++)
+            foreach (var word in source)
             {
-                for (var j = n; j >= i; j--)
+                var sorted = string.Concat(word.OrderBy(w => w));
+
+                if (anagramsGroupingsContainer.ContainsKey(sorted))
                 {
-                    result.Append(j.ToString());
+                    anagramsGroupingsContainer[sorted].Add(word);
+                }
+                else
+                {
+                    anagramsGroupingsContainer[sorted] = new List<string> { word };
+                }
+            }
+
+            return anagramsGroupingsContainer.Values;
+        }
+        private static int FindTheMostFrequentElement(IEnumerable<int> source)
+        {
+            var counter = new Dictionary<int, int>();
+
+            foreach (var num in source)
+            {
+                if (counter.ContainsKey(num))
+                {
+                    counter[num] += 1;
+                }
+                else
+                {
+                    counter[num] = 1;
+                }
+            }
+
+            var answer = counter.OrderByDescending(m => m.Value).Select(m => m.Key);
+
+            return answer.First();
+
+        }
+        private static bool DoesArrayContainDuplicateValues(IEnumerable<int> source)
+        {
+            var dataKeeper = new Dictionary<int, int>();
+            foreach (var num in source)
+            {
+                if (dataKeeper.ContainsKey(num))
+                {
+                    return true;
+                }
+                else
+                {
+                    dataKeeper[num] = num;
+                }
+            }
+
+            return false;
+        }
+        private static IEnumerable<int> JoinTwoArrays(IList<int> left, IList<int> right)
+        {
+            var result = new List<int>();
+
+            while (left.Any() && right.Any())
+            {
+                if (left[0] < right[0])
+                {
+                    result.Add(left[0]);
+                    left.RemoveAt(0);
+                }
+                else
+                {
+                    result.Add(right[0]);
+                    right.RemoveAt(0);
+                }
+            }
+
+            result = AddElementsToAnArray(result, left);
+            result = AddElementsToAnArray(result, right);
+
+            return result;
+        }
+        private static List<int> AddElementsToAnArray(List<int> source, IList<int> toTransfer)
+        {
+            if (!toTransfer.Any()) return source;
+
+            source.AddRange(toTransfer);
+
+            return source;
+        }
+        private static (int, int) FindTheIndicesOfFirstTwoElementsThatAddUpToTarget(IList<int> source, int target)
+        {
+            // Given an array of integers and a number, say target, find the index of two numbers in the array that sum up to the target: 
+            // e.g given[1, 3, 4, 5, 6, 7, 8] and 9, you should return 1,4 for the values 3 and 6 that sum up to 9
+            // if no such numbers exist return (-1, -1)
+
+            var elementHolders = new Dictionary<int, int>(); // will hold the value of each element and its index
+
+            for (var i = 0; i < source.Count; i++)
+            {
+                var missingNumber = target - source[i];
+
+                if (elementHolders.ContainsKey(missingNumber))
+                {
+                    return (elementHolders[missingNumber], i);
+                }
+                else
+                {
+                    elementHolders.Add(source[i], i);
+                }
+            }
+
+            return (-1, -1);
+        }
+        private static void Print()
+        {
+            for (var i = 1; i <= 100; i++)
+            {
+                Console.WriteLine(i.ToString());
+            }
+        }
+        private static int GreatestSumOfConsecutive(IReadOnlyList<int> source, int consecutive)
+        {
+            if (source.Count() < consecutive)
+            {
+                throw new ArgumentException($"array can not have less than {consecutive} elements");
+            }
+
+            var initialSum = source.Take(consecutive).Sum();
+
+            for (var j = 0; j < source.Count() - consecutive; j++)
+            {
+                var currentSum = initialSum + source[j + consecutive] - source[j];
+                if (currentSum > initialSum)
+                {
+                    initialSum = currentSum;
+                }
+            }
+
+            return initialSum;
+
+
+        }
+        private static string MoveZeroesToTheEnd(IList<int> source)
+        {
+            // Move all zeroes to the end of a given array while maintaining the order
+            //     or elements in the array
+            var j = 0;
+
+            foreach (var num in source)
+            {
+                if (num == 0) continue;
+
+                source[j] = num;
+                j++;
+            }
+
+            for (var i = j; i < source.Count; i++)
+                source[i] = 0;
+
+            return string.Join(' ', source);
+        }
+        private static bool MountainArray(IList<int> source)
+        {
+            // array should have more than three elements and the beginning numbers index i=0 
+            //     to some index i should be increasing in Value and from that point i to the end
+            //     decreasing in Value;
+            var arrayLength = source.Count;
+
+            if (arrayLength < 4)
+                return false;
+            var j = 1;
+
+            while (j < arrayLength && source[j] > source[j - 1])
+            {
+                j++;
+            }
+
+            if (j == 1 || j == arrayLength)
+                return false;
+
+            while (j < arrayLength && source[j] < source[j - 1])
+            {
+                j++;
+            }
+
+            return j == arrayLength;
+        }
+        private static int CalculateNumberOfBoats(IList<int> weights, int limit)
+        {
+            weights = weights.OrderBy(w => w).ToArray();
+            var leftPointer = 0;
+            var rightPointer = weights.Count - 1;
+            var boats = 0;
+
+            while (leftPointer <= rightPointer)
+            {
+                if (leftPointer == rightPointer)
+                {
+                    boats++;
+                    break;
                 }
 
-                result.Append("\n");
+                if (weights[leftPointer] + weights[rightPointer] <= limit)
+                {
+                    leftPointer++;
+                    rightPointer--;
+                }
+                else
+                {
+                    rightPointer--;
+                }
+
+                boats++;
             }
 
-            return result.ToString().Trim();
+            return boats;
         }
-
-        public static int[] MakeArray(int n)
+        private static (int, int) FindFirstAndLastOccurenceOfElementInASortedList(IList<int> source, int target)
         {
-            var count = 0;
-            var num = n;
-            do
-            {
-                num /= 10;
-                count++;
-            } while (num > 0);
 
-            var arrNum = new int[count];
-            for (var i = 0; i < arrNum.Length; i++)
-            {
-                arrNum[i] = n % 10;
-                n /= 10;
-            }
+            if (!source.Contains(target))
+                throw new ArgumentException($"the list does not contain {target}");
 
-            return arrNum;
+
+            var length = source.Count;
+
+            const int left = 0;
+            var right = length - 1;
+
+            var firstOccurence = FindFirstOccurrenceOfANumberInASortedList(source, target, left, right);
+            var lastOccurence = FindLastOccurenceOfANumberInASortedList(source, target, left, right);
+
+            return (firstOccurence, lastOccurence);
+
 
         }
-
-        public static void RotateForMax(int n)
+        private static int FindFirstOccurrenceOfANumberInASortedList(IList<int> source, int target, int left, int right)
         {
-            var arrNum = MakeArray(n);
-            Console.WriteLine(string.Concat(arrNum));
-
-            var interArr = arrNum.Skip(1).ToArray();
-            var first = arrNum[0];
-
-            for (var i = 0; i < interArr.Length-1; i++)
+            var firstOccurence = -1;
+            while (left <= right)
             {
-                arrNum[i] = interArr[i];
+
+                var mid = (int)Math.Floor((double)(left + (right - left) / 2));
+
+                var currentValue = source[mid];
+
+                if (currentValue == target)
+                {
+                    if (mid == 0 || source[mid - 1] != target)
+                    {
+                        firstOccurence = mid;
+                        break;
+                    }
+                    else
+                    {
+                        right = mid - 1;
+                    }
+
+                }
+                else if (currentValue > target)
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    left = mid + 1;
+                }
+
             }
 
-            arrNum[^1] = first;
-
-            Console.WriteLine(string.Concat(arrNum));
-
+            return firstOccurence;
         }
+        private static int FindLastOccurenceOfANumberInASortedList(IList<int> source, int target, int left, int right)
+        {
+            var lastOccurence = -1;
 
+            while (left <= right)
+            {
+
+                var mid = (int)Math.Floor((double)(left + (right - left) / 2));
+
+                var currentValue = source[mid];
+
+                if (currentValue == target)
+                {
+                    if (mid == source.Count - 1 || source[mid + 1] != target)
+                    {
+                        lastOccurence = mid;
+                        break;
+                    }
+                    else
+                    {
+                        left = mid + 1;
+                    }
+
+                }
+                else if (currentValue > target)
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    left = mid + 1;
+                }
+
+            }
+
+            return lastOccurence;
+        }
+        private static int FindMissingNumberInAnArrayOfDistinctConsecutiveElements(IList<int> source)
+        {
+            //given an array of len n with consecutive distinct numbers up to n in any order, find the missing number
+            //u can sort the array and find which number exceeds the previous by more than one, then subtract 1 from it and woila
+            //or use gauss law sum of consecutive numbers in an array = len(arr) * (len(arr)+1)/2 
+
+            var lengthArray = source.Contains(0) ? source.Count : source.Count + 1;
+            var currentSum = source.Sum();
+            var intendedSum = lengthArray * (lengthArray + 1) / 2;
+
+
+            return intendedSum - currentSum;
+        }
+        private static int FindMissingNumberInAnArrayIfEachElementOccursTwiceButThatNumber(IList<int> source)
+        {
+            // var setInt = new HashSet<int>(source);
+            var setInt = source.Distinct();
+            return 2 * setInt.Sum() - source.Sum();
+        }
     }
 
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine(Kata.Pattern(4));
-
-            Console.WriteLine(Kata.PatternDescending(4));
-
-            // Kata.RotateForMax(12345);
-
-            var x = 2;
-            var y = 8;
-
-            switch (x, y)
-            {
-                case var (a, b) when a > 2 && b > 5:
-                    Console.WriteLine("name");
-                    break;
-
-                case (4, var b) when b > 5:
-                    Console.WriteLine("named him a foolish king");
-                    break;
-
-                default:
-                    Console.WriteLine("unmatched");
-                    break;
-            }
-
-        }
-    }
 }
