@@ -8,8 +8,80 @@ namespace dojo
     {
         private static void Main()
         {
-            Console.WriteLine(MemoizeFib(160));
+            var linkedList = new LinkedListImplementation();
+
+            linkedList.AddNode(15);
+            linkedList.AddNode(13);
+            linkedList.AddNode(2);
+            linkedList.AddFirst(3);
+            linkedList.AddNode(8);
+            linkedList.AddLast(18);
+
+            linkedList.PrintNodeValues();
+            Console.WriteLine("deleting at 3");
+            linkedList.DeleteAt(0);
+
+            linkedList.PrintNodeValues();
+            Console.WriteLine("adding at 2 100");
+            linkedList.AddAt(2, 100);
+
+            linkedList.PrintNodeValues();
+            Console.WriteLine($"the linked list has {linkedList.Size} elements");
+
         }
+
+        private static IList<int> BubbleSort(IList<int> source)
+        {
+            var arrLength = source.Count;
+            for (var i = 0; i < arrLength; i++)
+            {
+                for (var j = 0; j < arrLength - 1; j++)
+                {
+                    if (source[j] > source[j + 1])
+                    {
+                        SwapTwoElementsInAnArray(source, j, j + 1);
+                    }
+                }
+            }
+
+            return source;
+        }
+        private static int PartitionArray(IList<int> source, int startIndex, int endIndex)
+        {
+            var leftPointer = startIndex;
+            var rightPointer = endIndex - 1;
+            var pivot = source[startIndex];
+
+
+            while (leftPointer <= rightPointer)
+            {
+                while (leftPointer < source.Count && source[leftPointer] < pivot)
+                    leftPointer++;
+
+                while (rightPointer > 0 && source[rightPointer] > pivot)
+                    rightPointer--;
+
+                if (leftPointer > rightPointer)
+                    SwapTwoElementsInAnArray(source, leftPointer, rightPointer);
+            }
+
+            SwapTwoElementsInAnArray(source, startIndex, leftPointer);
+
+            return rightPointer;
+        }
+        private static void SwapTwoElementsInAnArray(IList<int> source, int firstIndex, int secondIndex)
+        {
+            if (firstIndex >= source.Count || secondIndex >= source.Count
+            || firstIndex < 0 || secondIndex < 0)
+            {
+                throw new ArgumentException("indices can not be larger than the size of array or less than 0");
+            }
+
+            var temp = source[firstIndex];
+            source[firstIndex] = source[secondIndex];
+            source[secondIndex] = temp;
+        }
+
         private static readonly Dictionary<int, int> Cache = new Dictionary<int, int>();
         private static int MemoizeFib(int n)
         {
