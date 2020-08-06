@@ -8,44 +8,28 @@ namespace dojo
     {
         private static void Main()
         {
-            var linkedList = new LinkedListImplementation();
+            var stack = new StackImplementation();
+            stack.Push(8);
+            stack.Push(12);
 
-            linkedList.AddNode(15);
-            linkedList.AddNode(13);
-            linkedList.AddNode(2);
-            linkedList.AddFirst(3);
-            linkedList.AddNode(8);
-            linkedList.AddLast(18);
+            var queue = new QueueImplementation();
+            queue.Enqueue(6);
+            queue.Enqueue(9);
+            queue.Enqueue(80);
 
-            linkedList.PrintNodeValues();
-            Console.WriteLine("deleting at 3");
-            linkedList.DeleteAt(0);
+            Console.WriteLine("first value in queue " + queue.Peek.Value);
+            Console.WriteLine("removed from queue " + queue.Dequeue.Value);
 
-            linkedList.PrintNodeValues();
-            Console.WriteLine("adding at 2 100");
-            linkedList.AddAt(2, 100);
+            Console.WriteLine("elements in queue " + queue.Count);
 
-            linkedList.PrintNodeValues();
-            Console.WriteLine($"the linked list has {linkedList.Size} elements");
+            var removed = stack.Pop;
+
+            var next = stack.Peek;
+            Console.WriteLine($"next in line : {next.Value}");
+            Console.WriteLine($"deleted : {removed.Value}");
 
         }
 
-        private static IList<int> BubbleSort(IList<int> source)
-        {
-            var arrLength = source.Count;
-            for (var i = 0; i < arrLength; i++)
-            {
-                for (var j = 0; j < arrLength - 1; j++)
-                {
-                    if (source[j] > source[j + 1])
-                    {
-                        SwapTwoElementsInAnArray(source, j, j + 1);
-                    }
-                }
-            }
-
-            return source;
-        }
         private static int PartitionArray(IList<int> source, int startIndex, int endIndex)
         {
             var leftPointer = startIndex;

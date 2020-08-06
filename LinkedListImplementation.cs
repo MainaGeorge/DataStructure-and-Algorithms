@@ -6,8 +6,7 @@ namespace dojo
     public class LinkedListImplementation
     {
         public Node HeadNode;
-
-        public void AddNode(int value)
+        public void Add(int value)
         {
             if (HeadNode == null)
             {
@@ -15,16 +14,9 @@ namespace dojo
             }
             else
             {
-                var node = HeadNode;
-                while (node.NextNode != null)
-                {
-                    node = node.NextNode;
-                }
-
-                node.NextNode = new Node(value);
+                AddLast(value);
             }
         }
-
         public void PrintNodeValues()
         {
             if (HeadNode == null)
@@ -49,7 +41,6 @@ namespace dojo
                 Console.WriteLine(string.Join(' ', values));
             }
         }
-
         public int Size
         {
             get
@@ -71,13 +62,11 @@ namespace dojo
                 }
             }
         }
-
         public void AddFirst(int value)
         {
             if (HeadNode == null)
             {
                 HeadNode = new Node(value);
-                return;
             }
             else
             {
@@ -86,7 +75,6 @@ namespace dojo
             }
 
         }
-
         public void AddLast(int value)
         {
             if (HeadNode == null)
@@ -105,36 +93,44 @@ namespace dojo
                 node.NextNode = new Node(value);
             }
         }
-
-        public void DeleteTheFirstElement()
+        public Node DeleteTheFirstElement()
         {
+            var currentHeadNode = HeadNode;
             HeadNode = HeadNode.NextNode;
+
+            return currentHeadNode;
         }
-        public void DeleteNode(int value)
+
+        public Node DeleteNode(int value)
         {
             if (HeadNode == null)
-                return;
+                throw new Exception("can not delete from an empty list");
 
             else
             {
                 if (value == HeadNode.Value)
                 {
-                    DeleteTheFirstElement();
+                    return DeleteTheFirstElement();
                 }
                 else
                 {
                     var currentNode = HeadNode;
+                    Node nodeToBeRemoved = null;
 
                     while (currentNode != null)
                     {
                         if (currentNode.NextNode != null
                             && currentNode.NextNode.Value == value)
                         {
+                            nodeToBeRemoved = currentNode.NextNode;
+
                             currentNode.NextNode = currentNode.NextNode.NextNode;
                             break;
                         }
                         currentNode = currentNode.NextNode;
                     }
+
+                    return nodeToBeRemoved;
                 }
             }
 
@@ -165,15 +161,16 @@ namespace dojo
 
             }
         }
-
-        public void DeleteAt(int indexToDeleteAt)
+        public int DeleteAt(int indexToDeleteAt)
         {
             if (indexToDeleteAt > Size)
-                return;
+                return -1;
 
             else if (indexToDeleteAt == 0)
             {
+                var toReturn = HeadNode;
                 HeadNode = HeadNode.NextNode;
+                return toReturn.Value;
             }
             else
             {
@@ -186,12 +183,120 @@ namespace dojo
                     countVar++;
                 }
 
+                var nodeToReturn = node.NextNode;
+
                 node.NextNode = node.NextNode.NextNode;
+
+                return nodeToReturn.Value;
             }
         }
+        public Node GetAt(int index)
+        {
+            if (Size < index || HeadNode == null)
+            {
+                throw new ArgumentException("the list is empty or index out of bounds");
+            }
+            else if (index == 0)
+            {
+                return HeadNode;
+            }
+            else
+            {
+                var node = HeadNode;
+                var counter = 0;
 
+                while (counter < index)
+                {
+                    node = node.NextNode;
+                    counter++;
+                }
+
+                return node;
+            }
+        }
+        public void AddNode(Node node)
+        {
+            if (HeadNode == null)
+            {
+                HeadNode = node;
+            }
+            else
+            {
+                var currentNode = HeadNode;
+                while (currentNode.NextNode != null)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+
+                currentNode.NextNode = node;
+            }
+        }
+        public static LinkedListImplementation JoinTwoSortedLinkedLists(LinkedListImplementation first,
+            LinkedListImplementation second)
+        {
+            var resultLinkedList = new LinkedListImplementation();
+
+            while (first.Size > 0 && second.Size > 0)
+            {
+                resultLinkedList.Add(first.GetAt(0).Value < second.GetAt(0).Value ? first.DeleteAt(0) : second.DeleteAt(0));
+            }
+
+            AddElementsFromOneLinkedToAnother(resultLinkedList, first);
+
+            AddElementsFromOneLinkedToAnother(resultLinkedList, second);
+
+            return resultLinkedList;
+        }
+        private static void AddElementsFromOneLinkedToAnother(LinkedListImplementation destination,
+            LinkedListImplementation source)
+        {
+            while (source.Size > 0)
+            {
+                destination.AddLast(source.DeleteAt(0));
+            }
+        }
+        public bool IsLinkedListCyclic()
+        {
+            if (HeadNode == null)
+                return false;
+
+            var result = false;
+            var hare = HeadNode;
+            var tortoise = HeadNode;
+
+            while (hare.NextNode.NextNode != null)
+            {
+                hare = hare.NextNode.NextNode;
+                tortoise = tortoise.NextNode;
+
+                if (hare != tortoise) continue;
+
+                result = true;
+                break;
+            }
+
+            return result;
+        }
+        public static LinkedListImplementation ReverseLinkedList(LinkedListImplementation linkedList)
+        {
+            var newLinked = new LinkedListImplementation();
+
+            Node previousNode = null;
+            var currentNode = linkedList.HeadNode;
+
+            while (currentNode != null)
+            {
+                var nextNode = currentNode.NextNode;
+                currentNode.NextNode = previousNode;
+                previousNode = currentNode;
+                currentNode = nextNode;
+            }
+
+            newLinked.HeadNode = previousNode;
+
+            return newLinked;
+        }
     }
-
 
     public class Node
     {
