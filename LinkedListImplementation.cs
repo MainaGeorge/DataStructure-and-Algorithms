@@ -104,8 +104,9 @@ namespace dojo
         public Node DeleteNode(int value)
         {
             if (HeadNode == null)
+            {
                 throw new Exception("can not delete from an empty list");
-
+            }
             else
             {
                 if (value == HeadNode.Value)
@@ -164,8 +165,9 @@ namespace dojo
         public int DeleteAt(int indexToDeleteAt)
         {
             if (indexToDeleteAt > Size)
+            {
                 return -1;
-
+            }
             else if (indexToDeleteAt == 0)
             {
                 var toReturn = HeadNode;
