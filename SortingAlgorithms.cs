@@ -6,12 +6,71 @@ namespace dojo
 {
     public static class SortingAlgorithms
     {
+        public static IList<int> InsertSort(IList<int> source)
+        {
+            for (var currentIndex = 1; currentIndex < source.Count; currentIndex++)
+            {
+                var previousIndex = currentIndex - 1;
+                var currentValue = source[currentIndex];
+
+                while (previousIndex >= 0 && currentValue < source[previousIndex])
+                {
+                    SwapTwoElementsInAnArray(source, previousIndex, previousIndex + 1);
+                    previousIndex--;
+                }
+            }
+
+            return source;
+        }
+        public static IList<int> QuickSort(IList<int> source, int startIndex, int endIndex)
+        {
+            if (startIndex > endIndex)
+            {
+                throw new ArgumentException("starting index out of range");
+            }
+            var midPoint = (int)Math.Floor((endIndex + startIndex) / 2.0);
+            var pivot = source[midPoint];
+            var leftPointer = startIndex;
+            var rightPointer = endIndex;
+
+            while (leftPointer <= rightPointer)
+            {
+                while (pivot > source[leftPointer])
+                {
+                    leftPointer++;
+                }
+
+                while (pivot < source[rightPointer])
+                {
+                    rightPointer--;
+                }
+
+                if (leftPointer <= rightPointer)
+                {
+                    SwapTwoElementsInAnArray(source, leftPointer, rightPointer);
+                    leftPointer++;
+                    rightPointer--;
+                }
+            }
+
+            if (startIndex < rightPointer)
+            {
+                QuickSort(source, startIndex, rightPointer);
+            }
+
+            if (leftPointer < endIndex)
+            {
+                QuickSort(source, leftPointer, endIndex);
+            }
+
+            return source;
+        }
         public static IList<int> BubbleSort(IList<int> source)
         {
             var arrLength = source.Count;
             for (var i = 0; i < arrLength; i++)
             {
-                for (var j = 0; j < arrLength - 1; j++)
+                for (var j = 0; j < arrLength - 1 - i; j++)
                 {
                     if (source[j] > source[j + 1])
                     {
@@ -37,11 +96,8 @@ namespace dojo
         {
             if (source.Length == 1)
             {
-                Console.WriteLine(string.Join(' ', source));
                 return source;
             }
-
-            Console.WriteLine(string.Join(' ', source));
 
             var midPoint = (int)Math.Floor(source.Length / 2.0);
 
@@ -73,7 +129,10 @@ namespace dojo
 
         private static List<int> AddElementsToAnArray(List<int> source, IList<int> toTransfer)
         {
-            if (!toTransfer.Any()) return source;
+            if (!toTransfer.Any())
+            {
+                return source;
+            }
 
             source.AddRange(toTransfer);
 
