@@ -1,11 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace dojo
 {
     public static class SortingAlgorithms
     {
+        public static IList<int> SelectionSort(IList<int> source)
+        {
+            for (var currentIndex = 0; currentIndex < source.Count-1; currentIndex++)
+            {
+                var leastValueIndex = currentIndex;
+                for (var innerLoopIndex = currentIndex; innerLoopIndex < source.Count-1; innerLoopIndex++)
+                {
+                    if (source[innerLoopIndex] < source[leastValueIndex])
+                    {
+                        leastValueIndex = innerLoopIndex;
+                    }
+                }
+
+                if (leastValueIndex != currentIndex)
+                {
+                    SwapTwoElementsInAnArray(source, leastValueIndex, currentIndex);
+                }
+            }
+
+            return source;
+        }
         public static IList<int> InsertSort(IList<int> source)
         {
             for (var currentIndex = 1; currentIndex < source.Count; currentIndex++)
@@ -81,17 +103,6 @@ namespace dojo
 
             return source;
         }
-        private static void SwapTwoElementsInAnArray(IList<int> source, int firstIndex, int secondIndex)
-        {
-            if (firstIndex >= source.Count || secondIndex >= source.Count || firstIndex < 0 || secondIndex < 0)
-            {
-                throw new ArgumentException("indices can not be larger than the size of array or less than 0");
-            }
-
-            var temp = source[firstIndex];
-            source[firstIndex] = source[secondIndex];
-            source[secondIndex] = temp;
-        }
         public static IList<int> MergeSortAlgorithm(int[] source)
         {
             if (source.Length == 1)
@@ -102,6 +113,17 @@ namespace dojo
             var midPoint = (int)Math.Floor(source.Length / 2.0);
 
             return MergeTwoSortedArrays(MergeSortAlgorithm(source[0..midPoint]), MergeSortAlgorithm(source[midPoint..]));
+        }
+        private static void SwapTwoElementsInAnArray(IList<int> source, int firstIndex, int secondIndex)
+        {
+            if (firstIndex >= source.Count || secondIndex >= source.Count || firstIndex < 0 || secondIndex < 0)
+            {
+                throw new ArgumentException("indices can not be larger than the size of array or less than 0");
+            }
+
+            var temp = source[firstIndex];
+            source[firstIndex] = source[secondIndex];
+            source[secondIndex] = temp;
         }
         private static IEnumerable<int> MergeTwoArrays(IList<int> left, IList<int> right)
         {
@@ -126,7 +148,6 @@ namespace dojo
 
             return result;
         }
-
         private static List<int> AddElementsToAnArray(List<int> source, IList<int> toTransfer)
         {
             if (!toTransfer.Any())
@@ -138,7 +159,6 @@ namespace dojo
 
             return source;
         }
-
         public static IList<int> MergeTwoSortedArrays(IList<int> first, IList<int> second)
         {
             var resultArray = new List<int>();
@@ -165,7 +185,6 @@ namespace dojo
 
             return resultArray;
         }
-
         private static void AddRemainingElementsToSortedArray(ICollection<int> destination, IList<int> source,
             int indexToStartFrom)
         {

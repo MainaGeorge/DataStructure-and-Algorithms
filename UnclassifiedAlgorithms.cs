@@ -6,40 +6,41 @@ namespace dojo
 {
     public static class UnclassifiedAlgorithms
     {
-        private static int PartitionArray(IList<int> source, int startIndex, int endIndex)
+        public static void GetChunksOfArraysFromAGivenArray(List<int> source, int lengthOfArrayChunks)
         {
-            var leftPointer = startIndex;
-            var rightPointer = endIndex - 1;
-            var pivot = source[startIndex];
+            // --- Directions
+            // Given an array and chunk size, divide the array into many subarrays
+            // where each sub array is of length size
+            // --- Examples
+            // chunk([1, 2, 3, 4], 2) --> [[ 1, 2], [3, 4]]
+            // chunk([1, 2, 3, 4, 5], 2) --> [[ 1, 2], [3, 4], [5]]
+            // chunk([1, 2, 3, 4, 5, 6, 7, 8], 3) --> [[ 1, 2, 3], [4, 5, 6], [7, 8]]
+            // chunk([1, 2, 3, 4, 5], 4) --> [[ 1, 2, 3, 4], [5]]
+            // chunk([1, 2, 3, 4, 5], 10) --> [[ 1, 2, 3, 4, 5]]
+            var numberOfArraysToBeCreated = (int)Math.Ceiling((double)source.Count / lengthOfArrayChunks);
+            var counter = 0;
+            var sourceLength = source.Count - 1;
+            var indexCounter = 0;
+            var resultArray = new List<List<int>>();
 
-
-            while (leftPointer <= rightPointer)
+            while (counter < numberOfArraysToBeCreated)
             {
-                while (leftPointer < source.Count && source[leftPointer] < pivot)
-                    leftPointer++;
-
-                while (rightPointer > 0 && source[rightPointer] > pivot)
-                    rightPointer--;
-
-                if (leftPointer > rightPointer)
-                    SwapTwoElementsInAnArray(source, leftPointer, rightPointer);
+                if (indexCounter + lengthOfArrayChunks > sourceLength)
+                {
+                    resultArray.Add(source.GetRange(indexCounter, source.Count - indexCounter));
+                }
+                else
+                {
+                    resultArray.Add(source.GetRange(indexCounter, lengthOfArrayChunks));
+                    indexCounter += lengthOfArrayChunks;
+                }
+                counter++;
             }
 
-            SwapTwoElementsInAnArray(source, startIndex, leftPointer);
-
-            return rightPointer;
-        }
-        private static void SwapTwoElementsInAnArray(IList<int> source, int firstIndex, int secondIndex)
-        {
-            if (firstIndex >= source.Count || secondIndex >= source.Count
-            || firstIndex < 0 || secondIndex < 0)
+            foreach (var arr in resultArray)
             {
-                throw new ArgumentException("indices can not be larger than the size of array or less than 0");
+                Console.WriteLine(string.Join(' ', arr));
             }
-
-            var temp = source[firstIndex];
-            source[firstIndex] = source[secondIndex];
-            source[secondIndex] = temp;
         }
 
         private static readonly Dictionary<int, int> Cache = new Dictionary<int, int>();
@@ -132,9 +133,10 @@ namespace dojo
                 }
             }
 
-            var answer = counter.OrderByDescending(m => m.Value).Select(m => m.Key);
-
-            return answer.First();
+            return counter
+                .OrderByDescending(m => m.Value)
+                .Select(m => m.Key)
+                .First();
 
         }
         private static bool DoesArrayContainDuplicateValues(IEnumerable<int> source)
@@ -154,37 +156,7 @@ namespace dojo
 
             return false;
         }
-        private static IEnumerable<int> JoinTwoArrays(IList<int> left, IList<int> right)
-        {
-            var result = new List<int>();
 
-            while (left.Any() && right.Any())
-            {
-                if (left[0] < right[0])
-                {
-                    result.Add(left[0]);
-                    left.RemoveAt(0);
-                }
-                else
-                {
-                    result.Add(right[0]);
-                    right.RemoveAt(0);
-                }
-            }
-
-            result = AddElementsToAnArray(result, left);
-            result = AddElementsToAnArray(result, right);
-
-            return result;
-        }
-        private static List<int> AddElementsToAnArray(List<int> source, IList<int> toTransfer)
-        {
-            if (!toTransfer.Any()) return source;
-
-            source.AddRange(toTransfer);
-
-            return source;
-        }
         private static (int, int) FindTheIndicesOfFirstTwoElementsThatAddUpToTarget(IList<int> source, int target)
         {
             // Given an array of integers and a number, say target, find the index of two numbers in the array that sum up to the target: 
@@ -258,7 +230,10 @@ namespace dojo
             var arrayLength = source.Count;
 
             if (arrayLength < 4)
+            {
                 return false;
+            }
+
             var j = 1;
 
             while (j < arrayLength && source[j] > source[j - 1])
@@ -267,7 +242,9 @@ namespace dojo
             }
 
             if (j == 1 || j == arrayLength)
+            {
                 return false;
+            }
 
             while (j < arrayLength && source[j] < source[j - 1])
             {
@@ -310,8 +287,9 @@ namespace dojo
         {
 
             if (!source.Contains(target))
+            {
                 throw new ArgumentException($"the list does not contain {target}");
-
+            }
 
             var length = source.Count;
 
