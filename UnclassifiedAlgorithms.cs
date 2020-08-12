@@ -6,6 +6,75 @@ namespace dojo
 {
     public static class UnclassifiedAlgorithms
     {
+        public static void SpiralMatrixAlgorithm(int arrSize)
+        {
+            // Write a function that accepts an integer N
+            // and returns a NxN spiral matrix.
+            // --- Examples
+            //   matrix(2)
+            //     [[1, 2],
+            //     [4, 3]]
+            //   matrix(3)
+            //     [[1, 2, 3],
+            //     [8, 9, 4],
+            //     [7, 6, 5]]
+            //  matrix(4)
+            //     [[1,   2,  3, 4],
+            //     [12, 13, 14, 5],
+            //     [11, 16, 15, 6],
+            //     [10,  9,  8, 7]]
+
+            var (lastRowIndex, lastColumnIndex, rowIndex, columnIndex)
+                = (arrSize - 1, arrSize - 1, 0, 0);
+            var currentIntValue = 1;
+            var resultArray = new int[arrSize][];
+
+            for (var i = 0; i < resultArray.Length; i++)
+            {
+                resultArray[i] = new int[arrSize];
+            }
+
+            while (rowIndex <= lastRowIndex && columnIndex <= lastColumnIndex)
+            {
+                for (var topRowIndex = columnIndex; topRowIndex <= lastColumnIndex; topRowIndex++)
+                {
+                    resultArray[rowIndex][topRowIndex] = currentIntValue;
+                    currentIntValue++;
+                }
+
+                rowIndex++;
+
+                for (var rightCornerIndex = rowIndex; rightCornerIndex <= lastRowIndex; rightCornerIndex++)
+                {
+                    resultArray[rightCornerIndex][lastColumnIndex] = currentIntValue;
+                    currentIntValue++;
+                }
+
+                lastColumnIndex--;
+
+                for (var bottomRowIndex = lastColumnIndex; bottomRowIndex >= columnIndex; bottomRowIndex--)
+                {
+                    resultArray[lastRowIndex][bottomRowIndex] = currentIntValue;
+                    currentIntValue++;
+                }
+
+                lastRowIndex--;
+
+                for (var leftCornerIndex = lastRowIndex; leftCornerIndex >= rowIndex; leftCornerIndex--)
+                {
+                    resultArray[leftCornerIndex][columnIndex] = currentIntValue;
+                    currentIntValue++;
+                }
+
+                columnIndex++;
+            }
+
+            foreach (var item in resultArray)
+            {
+                Console.WriteLine(string.Join(' ', item));
+            }
+
+        }
         public static void GetChunksOfArraysFromAGivenArray(List<int> source, int lengthOfArrayChunks)
         {
             // --- Directions
@@ -42,8 +111,6 @@ namespace dojo
                 Console.WriteLine(string.Join(' ', arr));
             }
         }
-
-        private static readonly Dictionary<int, int> Cache = new Dictionary<int, int>();
         private static int MemoizeFib(int n)
         {
             if (n == 2 || n == 3)
@@ -156,7 +223,6 @@ namespace dojo
 
             return false;
         }
-
         private static (int, int) FindTheIndicesOfFirstTwoElementsThatAddUpToTarget(IList<int> source, int target)
         {
             // Given an array of integers and a number, say target, find the index of two numbers in the array that sum up to the target: 
@@ -394,5 +460,7 @@ namespace dojo
             var setInt = source.Distinct();
             return 2 * setInt.Sum() - source.Sum();
         }
+        private static readonly Dictionary<int, int> Cache = new Dictionary<int, int>();
+
     }
 }
