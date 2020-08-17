@@ -13,6 +13,27 @@ namespace dojo
 
         }
 
+        private static IEnumerable<IEnumerable<string>> GroupAnagrams(IEnumerable<string> source)
+        {
+            var anagramsGroupingsContainer = new Dictionary<string, List<string>>();
+
+            foreach (var word in source)
+            {
+                var sorted = string.Concat(word.OrderBy(w => w));
+
+                if (anagramsGroupingsContainer.ContainsKey(sorted))
+                {
+                    anagramsGroupingsContainer[sorted].Add(word);
+                }
+                else
+                {
+                    anagramsGroupingsContainer[sorted] = new List<string> { word };
+                }
+            }
+
+            return anagramsGroupingsContainer.Values;
+        }
+
         public static string ReverseString(string toReverse)
         {
             return toReverse.Aggregate(string.Empty, (s, c) => c + s);

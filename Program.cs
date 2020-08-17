@@ -1,19 +1,14 @@
-﻿using System;
-
-namespace dojo
+﻿namespace dojo
 {
     internal class Program
     {
         private static void Main()
         {
-            var arr = new[] { 8, 7, 9, 3, 4, 5 };
-            // ArrayProblems.LeftCircularRotation(arr);
+            var numbers = new[,] { { 2, 3, 4 }, { 5, 6, 7 } };
 
-            // ArrayProblems.RightCircularRotation(arr);
+            ArrayProblems.JoinTwoArraysToOneMultiDimensionalReadingColumnsFirst(numbers);
+            ArrayProblems.EmptyATwoDimensionalArrayIntoAOneDimensional(numbers);
 
-            // ArrayProblems.FindLargestNumberCombinationInAnArray(arr);
-            var largest = ArrayProblems.GetTheBiggestByValueCombinationOfGivenIntegers(112345);
-            Console.WriteLine(largest);
         }
 
 

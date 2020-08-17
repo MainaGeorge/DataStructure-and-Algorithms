@@ -21,7 +21,6 @@ namespace dojo
             Console.WriteLine(string.Join(" ", source));
             return source;
         }
-
         public static int[] RightCircularRotation(int[] source)
         {
             var lastElement = source[^1];
@@ -36,7 +35,6 @@ namespace dojo
 
             return source;
         }
-
         private static int MakeAnInt(IEnumerable<int> source)
         {
             var result = new StringBuilder();
@@ -74,7 +72,6 @@ namespace dojo
 
             return maxCombination;
         }
-
         private static int CalculateArraySize(int numbers)
         {
             var lengthOfArray = 0;
@@ -87,7 +84,6 @@ namespace dojo
 
             return lengthOfArray;
         }
-
         private static int[] MakeArrayFromIntegers(int numbers)
         {
             var length = CalculateArraySize(numbers);
@@ -101,12 +97,10 @@ namespace dojo
 
             return resultArray;
         }
-
         public static int GetTheBiggestByValueCombinationOfGivenIntegers(int numbers)
         {
             return FindLargestNumberCombinationInAnArray(MakeArrayFromIntegers(numbers));
         }
-
         public static void SpiralMatrixAlgorithm(int arrSize)
         {
             // Write a function that accepts an integer N
@@ -176,8 +170,7 @@ namespace dojo
             }
 
         }
-
-        private static int FindMissingNumberInAnArrayOfDistinctConsecutiveElements(IList<int> source)
+        public static int FindMissingNumberInAnArrayOfDistinctConsecutiveElements(IList<int> source)
         {
             //given an array of len n with consecutive distinct numbers up to n in any order, find the missing number
             //u can sort the array and find which number exceeds the previous by more than one, then subtract 1 from it and woila
@@ -190,14 +183,12 @@ namespace dojo
 
             return intendedSum - currentSum;
         }
-
-        private static int FindMissingNumberInAnArrayIfEachElementOccursTwiceButThatNumber(IList<int> source)
+        public static int FindMissingNumberInAnArrayIfEachElementOccursTwiceButThatNumber(IList<int> source)
         {
             var setInt = source.Distinct();
             return 2 * setInt.Sum() - source.Sum();
         }
-
-        private static int GreatestSumOfConsecutive(IReadOnlyList<int> source, int consecutive)
+        public static int GreatestSumOfConsecutive(IReadOnlyList<int> source, int consecutive)
         {
             if (source.Count() < consecutive)
             {
@@ -219,8 +210,7 @@ namespace dojo
 
 
         }
-
-        private static bool MountainArray(IList<int> source)
+        public static bool MountainArray(IList<int> source)
         {
             // array should have more than three elements and the beginning numbers index i=0 
             //     to some index i should be increasing in Value and from that point i to the end
@@ -251,8 +241,7 @@ namespace dojo
 
             return j == arrayLength;
         }
-
-        private static (int, int) FindFirstAndLastOccurenceOfElementInASortedList(IList<int> source, int target)
+        public static (int, int) FindFirstAndLastOccurenceOfElementInASortedList(IList<int> source, int target)
         {
 
             if (!source.Contains(target))
@@ -345,7 +334,7 @@ namespace dojo
 
             return firstOccurence;
         }
-        private static string MoveZeroesToTheEnd(IList<int> source)
+        public static string MoveZeroesToTheEnd(IList<int> source)
         {
             // Move all zeroes to the end of a given array while maintaining the order
             //     or elements in the array
@@ -369,8 +358,7 @@ namespace dojo
 
             return string.Join(' ', source);
         }
-
-        private static (int, int) FindTheIndicesOfFirstTwoElementsThatAddUpToTarget(IList<int> source, int target)
+        public static (int, int) FindTheIndicesOfFirstTwoElementsThatAddUpToTarget(IList<int> source, int target)
         {
             // Given an array of integers and a number, say target, find the index of two numbers in the array that sum up to the target: 
             // e.g given[1, 3, 4, 5, 6, 7, 8] and 9, you should return 1,4 for the values 3 and 6 that sum up to 9
@@ -394,7 +382,6 @@ namespace dojo
 
             return (-1, -1);
         }
-
         public static void GetChunksOfArraysFromAGivenArray(List<int> source, int lengthOfArrayChunks)
         {
             // --- Directions
@@ -431,7 +418,7 @@ namespace dojo
                 Console.WriteLine(string.Join(' ', arr));
             }
         }
-        private static bool DoesArrayContainDuplicateValues(IEnumerable<int> source)
+        public static bool DoesArrayContainDuplicateValues(IEnumerable<int> source)
         {
             var dataKeeper = new Dictionary<int, int>();
             foreach (var num in source)
@@ -448,10 +435,144 @@ namespace dojo
 
             return false;
         }
+        public static int FindTheMostFrequentElement(IEnumerable<int> source)
+        {
+            var counter = new Dictionary<int, int>();
 
+            foreach (var num in source)
+            {
+                if (counter.ContainsKey(num))
+                {
+                    counter[num] += 1;
+                }
+                else
+                {
+                    counter[num] = 1;
+                }
+            }
 
+            return counter
+                .OrderByDescending(m => m.Value)
+                .Select(m => m.Key)
+                .First();
 
+        }
+        public static int FindPossibleNumberOfTimesSumsToZero(IEnumerable<int> first,
+            IEnumerable<int> second, IEnumerable<int> third, IEnumerable<int> fourth)
+        {
+            // Given four arrays a, b, c and d, find how many possible combinations
+            // such that if we took an element from each array and added them together the result would be 0.
+            var results = new Dictionary<int, int>(); //this will hold sum of two elements from two arrays and the number of times it repeats throughout the calculation
 
+            foreach (var num in first)
+            {
+                foreach (var num2 in second)
+                {
+                    var currentSum = num + num2;
+
+                    if (results.ContainsKey(currentSum))
+                    {
+                        results[currentSum]++;
+                    }
+                    else
+                    {
+                        results[currentSum] = 1;
+                    }
+                }
+            }
+
+            var numberOfCombinations = third.Sum(num => fourth.Select(num2 => -(num + num2)).Where(currentSum => results.ContainsKey(currentSum)).Sum(currentSum => results[currentSum]));
+            return numberOfCombinations;
+        }
+        public static int FindSecondMaximumValueInOneLoop(int[] source)
+        {
+            var maxValue1 = int.MinValue;
+            var maxValue2 = int.MinValue;
+
+            foreach (var number in source)
+            {
+                if (number > maxValue1)
+                {
+                    maxValue2 = maxValue1;
+                    maxValue1 = number;
+
+                }
+                else if (number > maxValue2)
+                {
+                    maxValue2 = number;
+                }
+            }
+
+            return maxValue2;
+        }
+        public static int FindThirdMaximumValueInOneLoop(int[] source)
+        {
+            var (maxValue1, maxValue2, maxValue3) = (int.MinValue, int.MinValue, int.MinValue);
+            foreach (var number in source)
+            {
+                if (number > maxValue1)
+                {
+                    maxValue3 = maxValue2;
+                    maxValue2 = maxValue1;
+                    maxValue1 = number;
+                }
+                else if (number > maxValue2)
+                {
+                    maxValue3 = maxValue2;
+                    maxValue2 = number;
+                }
+                else if (number > maxValue3)
+                {
+                    maxValue3 = number;
+                }
+            }
+
+            return maxValue3;
+        }
+        public static int[] JoinTwoArraysToOneMultiDimensionalReadingColumnsFirst(int[,] array)
+        {
+            var totalNumberOfElements = array.Length;
+            var index = 0;
+
+            var resultArray = new int[totalNumberOfElements];
+
+            var rows = array.GetLength(0);
+            var columns = array.GetLength(1);
+
+            for (var row = 0; row < columns; row++)
+            {
+                for (var column = 0; column < rows; column++)
+                {
+                    resultArray[index] = array[column, row];
+                    index++;
+                }
+            }
+            Console.WriteLine($"total elements {totalNumberOfElements} rows: {rows} columns: {columns}");
+            Console.WriteLine(string.Join(' ', resultArray));
+            return resultArray;
+        }
+        public static int[] EmptyATwoDimensionalArrayIntoAOneDimensional(int[,] array)
+        {
+            var totalNumberOfElements = array.Length;
+            var index = 0;
+
+            var resultArray = new int[totalNumberOfElements];
+
+            var rows = array.GetLength(0);
+            var columns = array.GetLength(1);
+
+            for (var row = 0; row < rows; row++)
+            {
+                for (var column = 0; column < columns; column++)
+                {
+                    resultArray[index] = array[row, column];
+                    index++;
+                }
+            }
+
+            Console.WriteLine(string.Join(' ', resultArray));
+            return resultArray;
+        }
 
     }
 }
