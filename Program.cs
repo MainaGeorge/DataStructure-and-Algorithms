@@ -1,13 +1,22 @@
-﻿namespace dojo
+﻿using System;
+
+namespace dojo
 {
     internal class Program
     {
         private static void Main()
         {
-            var numbers = new[,] { { 2, 3, 4 }, { 5, 6, 7 } };
+            var queue = new GenericQueueImplementationUsingTwoStacks<string>();
+            queue.Enqueue("mother");
+            queue.Enqueue("father");
+            queue.Enqueue("daughter");
+            queue.Enqueue("son");
 
-            ArrayProblems.JoinTwoArraysToOneMultiDimensionalReadingColumnsFirst(numbers);
-            ArrayProblems.EmptyATwoDimensionalArrayIntoAOneDimensional(numbers);
+
+            // Console.WriteLine($"the queue has {queue.Count} elements");
+
+            Console.WriteLine($"The next element to be dequeued is {queue.Peek().Value}");
+            queue.ShowMembers();
 
         }
 

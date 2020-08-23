@@ -573,6 +573,41 @@ namespace dojo
             Console.WriteLine(string.Join(' ', resultArray));
             return resultArray;
         }
+        public static int AddSumOfOddNumbers(int[] array)
+        {
+            return array.Where(x => x % 2 == 1).Sum();
+        }
+        public static int AddArrayOfArrays(int[,] source)
+        {
+            return source.Cast<int>().Sum();
+        } 
+        public static bool LuckyNumbers(int[] source, int consecutiveNumbers, int amountTheySumUpTo)
+        {
+            //check whether in a given array of numbers, and a number of consecutive numbers to check, whether
+            //any of them add up to the given amount they should sum to.
+            return source.Where((t, index) => source[index..].Take(consecutiveNumbers).Sum().Equals(amountTheySumUpTo)).Any();
+        }
+        public static List<List<int>> TwoSumProblem(int[] source, int target)
+        {
+            // Given an integer x and a sorted array a of N distinct integers, design a linear-time algorithm to determine if 
+            // there exists two distinct indices i and j such that a[i] + a[j] == x
+            var resultList = new List<List<int>>();
+            var elementAndIndexHolder = new Dictionary<int, int>();
 
+            for (var index = 0; index < source.Length; index++)
+            {
+                var missingNumber = target - source[index];
+                if (elementAndIndexHolder.ContainsKey(missingNumber))
+                {
+                    resultList.Add(new List<int>(){source[index], missingNumber});
+                }
+                else
+                {
+                    elementAndIndexHolder[source[index]] = index;
+                }
+            }
+
+            return resultList;
+        }
     }
 }

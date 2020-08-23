@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace dojo
 {
-    public class LinkedTreeImplementation<T>
+    public class GenericLinkedListImplementation<T> : IEnumerable<T>
     {
         public Node<T> HeadNode;
-
-        public LinkedTreeImplementation()
+        public GenericLinkedListImplementation()
         {
         }
-        public LinkedTreeImplementation(Node<T> node)
+        public GenericLinkedListImplementation(Node<T> node)
         {
             HeadNode = node;
         }
@@ -125,9 +126,17 @@ namespace dojo
                 throw new IndexOutOfRangeException($"the list has fewer elements than {searchIndex}");
             }
         }
-        public void RemoveFirst()
+        public Node<T> RemoveFirst()
         {
-            HeadNode = HeadNode?.NextNode;
+            if (HeadNode == null)
+            {
+                throw new ArgumentException("can not remove from an empty list");
+            }else
+            {
+                var nodeToRemove = HeadNode;
+                HeadNode = HeadNode.NextNode;
+                return nodeToRemove;
+            }
         }
         public void RemoveLast()
         {
@@ -146,7 +155,7 @@ namespace dojo
 
             previousNode.NextNode = null;
         }
-        public void ShowNumbers()
+        public void ShowMembers()
         {
             if (HeadNode == null)
             {
@@ -179,7 +188,6 @@ namespace dojo
                 {
                     if (indexCounter == index - 1)
                     {
-                        Console.WriteLine(currentNode.Value);
                         node.NextNode = currentNode.NextNode;
                         currentNode.NextNode = node;
                         return;
@@ -205,16 +213,15 @@ namespace dojo
             }
             else
             {
-                const int indexCounter = 0;
-                var currentNode = HeadNode;
-                var previousNode = HeadNode;
-
                 if (index == 0)
                 {
                     RemoveFirst();
                 }
                 else
                 {
+                    const int indexCounter = 0;
+                    var currentNode = HeadNode;
+                    var previousNode = HeadNode;
                     while (currentNode != null)
                     {
                         if (indexCounter == index - 1)
@@ -230,6 +237,26 @@ namespace dojo
                 }
 
             }
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            if (HeadNode != null)
+            {
+                var currentNode = HeadNode;
+                while (currentNode != null)
+                {
+                    yield return currentNode.Value;
+                    currentNode = currentNode.NextNode;
+                }
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("no items in the list");
+            }
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

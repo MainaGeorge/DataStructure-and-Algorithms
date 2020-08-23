@@ -100,7 +100,6 @@ namespace dojo
 
             return currentHeadNode;
         }
-
         public Node DeleteNode(int value)
         {
             if (HeadNode == null)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace dojo
@@ -37,7 +36,9 @@ namespace dojo
 
                 while (previousIndex >= 0 && currentValue < source[previousIndex])
                 {
-                    SwapTwoElementsInAnArray(source, previousIndex, previousIndex + 1);
+                    SwapTwoElementsInAnArray(source, previousIndex,
+                        previousIndex + 1);
+
                     previousIndex--;
                 }
             }

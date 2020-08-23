@@ -15,12 +15,11 @@ namespace dojo
             else
             {
                 var squareRoot = (int)Math.Floor((Math.Sqrt(number)));
-                Console.WriteLine(squareRoot);
+
                 for (var num = 3; num < squareRoot; num += 2)
                 {
                     if (number % num == 0)
                     {
-                        Console.WriteLine(num);
                         return false;
                     }
                 }
@@ -48,10 +47,12 @@ namespace dojo
 
             if (Cache.ContainsKey(n))
             {
+                Console.WriteLine("from cache for " + n);
                 return Cache[n];
             }
             else
             {
+                Console.WriteLine("calculating " + n);
                 Cache[n] = MemoizeFib(n - 1) + MemoizeFib(n - 2);
                 return Cache[n];
             }

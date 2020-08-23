@@ -114,5 +114,11 @@ namespace dojo
 
             return finalString.ToString();
         }
+
+        public static bool IsStringARotationOfB(string a, string b)
+        {
+            // Find out if a string is a rotation of another string.E.g.ABCD is a rotation of BCDA but not ACBD.
+            return a.Length == b.Length && (a + a).Contains(b);
+        }
     }
 }
