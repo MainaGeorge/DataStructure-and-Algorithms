@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dojo", "dojo.csproj", "{FDC59B7E-EB8B-461E-8B9F-EE88B244ED5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dojo", "dojo.csproj", "{FDC59B7E-EB8B-461E-8B9F-EE88B244ED5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedListTests", "..\LinkedListTests\LinkedListTests.csproj", "{6A1BF967-5E9D-4D18-9E9C-740D57E9CA9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FDC59B7E-EB8B-461E-8B9F-EE88B244ED5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDC59B7E-EB8B-461E-8B9F-EE88B244ED5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDC59B7E-EB8B-461E-8B9F-EE88B244ED5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A1BF967-5E9D-4D18-9E9C-740D57E9CA9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A1BF967-5E9D-4D18-9E9C-740D57E9CA9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A1BF967-5E9D-4D18-9E9C-740D57E9CA9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A1BF967-5E9D-4D18-9E9C-740D57E9CA9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,18 +6,19 @@ namespace dojo
     {
         private static void Main()
         {
-            var queue = new GenericQueueImplementationUsingTwoStacks<string>();
-            queue.Enqueue("mother");
-            queue.Enqueue("father");
-            queue.Enqueue("daughter");
-            queue.Enqueue("son");
+            // Console.WriteLine(StringProblems.MakeString('a', "bcd", "bcd".Length));
+            Console.WriteLine(StringProblems.GetSubstrings("oliver"));
 
+            var linked = new GenericLinkedListImplementation<string>();
 
-            // Console.WriteLine($"the queue has {queue.Count} elements");
+            linked.AddNode("dad");
+            linked.AddNode("mom");
+            linked.AddNode("son");
+            linked.AddNode("daughter");
 
-            Console.WriteLine($"The next element to be dequeued is {queue.Peek().Value}");
-            queue.ShowMembers();
-
+            linked.ShowMembers();
+            linked.RemoveAt(2);
+            linked.ShowMembers();
         }
 
 

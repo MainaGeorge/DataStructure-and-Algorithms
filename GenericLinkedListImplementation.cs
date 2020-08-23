@@ -131,7 +131,8 @@ namespace dojo
             if (HeadNode == null)
             {
                 throw new ArgumentException("can not remove from an empty list");
-            }else
+            }
+            else
             {
                 var nodeToRemove = HeadNode;
                 HeadNode = HeadNode.NextNode;
@@ -219,18 +220,17 @@ namespace dojo
                 }
                 else
                 {
-                    const int indexCounter = 0;
+                    var indexCounter = 0;
                     var currentNode = HeadNode;
-                    var previousNode = HeadNode;
                     while (currentNode != null)
                     {
                         if (indexCounter == index - 1)
                         {
-                            previousNode.NextNode = currentNode.NextNode;
+                            currentNode.NextNode = currentNode.NextNode.NextNode;
                             return;
                         }
-                        previousNode = currentNode;
                         currentNode = currentNode.NextNode;
+                        indexCounter++;
                     }
 
                     throw new IndexOutOfRangeException("index is out of range");

@@ -82,7 +82,7 @@ namespace dojo
 
         public static string FindAllPossibleSubsetOfString(string str)
         {
-            var index = 0;  
+            var index = 0;
             var finalResult = new StringBuilder();
 
             while (index < str.Length)
@@ -119,6 +119,30 @@ namespace dojo
         {
             // Find out if a string is a rotation of another string.E.g.ABCD is a rotation of BCDA but not ACBD.
             return a.Length == b.Length && (a + a).Contains(b);
+        }
+
+        private static string MakeString(char a, string substring, int substringLength)
+        {
+            var finalString = new StringBuilder();
+
+            for (var i = 1; i <= substringLength; i++)
+            {
+                finalString.Append(a.ToString() + substring.Substring(0, i) + " ");
+            }
+
+            return finalString.ToString();
+        }
+
+        public static string GetSubstrings(string str)
+        {
+            var finalString = new StringBuilder();
+
+            for (var index = 0; index < str.Length; index++)
+            {
+                var substring = str.Substring(index + 1);
+                finalString.Append(MakeString(str[index], substring, substring.Length));
+            }
+            return finalString.ToString();
         }
     }
 }
