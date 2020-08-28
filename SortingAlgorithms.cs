@@ -8,10 +8,11 @@ namespace dojo
     {
         public static IList<int> SelectionSort(IList<int> source)
         {
-            for (var currentIndex = 0; currentIndex < source.Count-1; currentIndex++)
+            for (var currentIndex = 0; currentIndex < source.Count - 1; currentIndex++)
             {
                 var leastValueIndex = currentIndex;
-                for (var innerLoopIndex = currentIndex; innerLoopIndex < source.Count-1; innerLoopIndex++)
+
+                for (var innerLoopIndex = currentIndex; innerLoopIndex < source.Count; innerLoopIndex++)
                 {
                     if (source[innerLoopIndex] < source[leastValueIndex])
                     {

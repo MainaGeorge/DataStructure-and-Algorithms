@@ -5,6 +5,7 @@
         public Node<T> NextNode;
 
         public T Value;
+
         public Node(T value, Node<T> nextNode = null)
         {
             Value = value;

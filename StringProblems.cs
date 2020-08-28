@@ -37,6 +37,8 @@ namespace dojo
         public static string ReverseString(string toReverse)
         {
             return toReverse.Aggregate(string.Empty, (s, c) => c + s);
+
+            // return new string(toReverse.Reverse().ToArray());
         }
 
         public static string ReverseStringLooping(string toReverse)
@@ -56,6 +58,13 @@ namespace dojo
             return string.Join(' ', reversedSentence);
         }
 
+        public static string ReverseSentenceAndEachWordInThatSentence(string toReverse)
+        {
+            var charArray = toReverse.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)
+                .Reverse().Select(str => new string(str.Reverse().ToArray()));
+
+            return string.Join(' ', charArray);
+        }
         public static string ReverseEachWord(string sentence)
         {
             var result = sentence.Split(' ').Select(ReverseString);
@@ -72,6 +81,7 @@ namespace dojo
                 finalString.Append(character);
             }
 
+            var lenWithoutDuplicates = charTracker.Sum(x => x.Value);
             return finalString.ToString();
         }
 
@@ -127,7 +137,7 @@ namespace dojo
 
             for (var i = 1; i <= substringLength; i++)
             {
-                finalString.Append(a.ToString() + substring.Substring(0, i) + " ");
+                finalString.Append(a + substring.Substring(0, i) + " ");
             }
 
             return finalString.ToString();
