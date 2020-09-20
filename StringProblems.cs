@@ -60,7 +60,7 @@ namespace dojo
 
         public static string ReverseSentenceAndEachWordInThatSentence(string toReverse)
         {
-            var charArray = toReverse.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)
+            var charArray = toReverse.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 .Reverse().Select(str => new string(str.Reverse().ToArray()));
 
             return string.Join(' ', charArray);
@@ -153,6 +153,29 @@ namespace dojo
                 finalString.Append(MakeString(str[index], substring, substring.Length));
             }
             return finalString.ToString();
+        }
+
+        public static bool IsPalindromeB(string palindrome)
+        {
+            palindrome = palindrome.ToLower();
+
+            var leftIndex = 0;
+            var rightIndex = palindrome.Length - 1;
+
+            while (leftIndex < rightIndex)
+            {
+                if (palindrome[leftIndex] == palindrome[rightIndex])
+                {
+                    leftIndex++;
+                    rightIndex--;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

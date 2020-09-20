@@ -6,9 +6,9 @@ namespace dojo
     {
         private static void Main()
         {
-            const string sentence = "hello my name is George. Oliver is my son";
+            const string sentence = "abbas";
 
-            Console.WriteLine(StringProblems.ReverseSentenceAndEachWordInThatSentence(sentence));
+            Console.WriteLine(StringProblems.IsPalindromeB(sentence));
         }
 
 
