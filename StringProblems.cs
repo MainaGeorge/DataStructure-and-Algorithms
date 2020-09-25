@@ -177,5 +177,58 @@ namespace dojo
 
             return true;
         }
+
+        private static bool IsPalindromic(string testSubject)
+        {
+            if (testSubject.Any(x => !char.IsLetter(x)))
+            {
+                testSubject = CreateStringOfJustLetters(testSubject);
+            }
+
+            var leftIndex = 0;
+            var rightIndex = testSubject.Length - 1;
+
+            while (leftIndex < rightIndex)
+            {
+                if (testSubject[rightIndex] != testSubject[leftIndex])
+                {
+                    return false;
+                }
+
+                leftIndex++;
+                rightIndex--;
+            }
+
+            return true;
+
+        }
+
+        private static string CreateStringOfJustLetters(string testSubject)
+        {
+            return new string(testSubject.Where(char.IsLetter).Select(char.ToUpper).ToArray());
+        }
+
+        private static IEnumerable<int> LargestNumbersInEachArray(IEnumerable<int[]> source)
+        {
+            return source.Select(x => x.Max()).ToArray();
+        }
+        private static string TitleCaseASentence(string sentence)
+        {
+            var titleCasedArray = sentence.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => char.ToUpper(x[0]) + x.Substring(1))
+                .ToArray();
+
+            return string.Join(' ', titleCasedArray);
+        }
+        private static (string, int) GetLongestWordInASentence(string sentence)
+        {
+            var longestWord = sentence.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .OrderByDescending(x => x.Length)
+                .First();
+
+            return (longestWord, longestWord.Length);
+
+        }
+
     }
 }
