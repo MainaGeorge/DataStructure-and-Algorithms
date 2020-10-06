@@ -7,23 +7,23 @@ namespace dojo
     {
         private static void Main()
         {
-            var dynamic = new DynamicArray<int>(3);
-            var dynamic2 = new DynamicArray<int>(5);
-            var comp = new[] { 1, 12, 13, 4, 5 };
-            dynamic.Insert(1);
-            dynamic.Insert(2);
-            dynamic.Insert(3);
+            var linked = new LinkedLIst<int>();
 
-            dynamic.InsertAt(0, 4);
-            dynamic.Insert(5);
-            dynamic2.Insert(45);
-            dynamic2.Insert(10);
-            dynamic2.Insert(5);
-            dynamic2.Insert(4);
-            dynamic2.Insert(32);
-            dynamic2.Insert(13);
+            linked.AddLast(7);
+            // linked.AddFirst(12);
+            // linked.RemoveAt(1);
+            // linked.InsertAt(1, 8);
+            // linked.InsertAt(1, 15);
+            // linked.RemoveAt(3);
+            linked.PrintValues();
+            linked.BetterReverse();
+            Console.WriteLine("after reverse");
+            linked.PrintValues();
 
-            Console.WriteLine(string.Join(" ", dynamic2.Intersect(comp)));
+
+            Console.WriteLine($"the list has {linked.Size} elements");
+
+
 
         }
 
