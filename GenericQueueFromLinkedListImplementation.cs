@@ -14,7 +14,7 @@ namespace dojo
         }
         public IEnumerator<T> GetEnumerator()
         {
-            return _underlyingGenericLinkedList.GetEnumerator();
+            return (IEnumerator<T>) _underlyingGenericLinkedList.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

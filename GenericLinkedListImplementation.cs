@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace dojo
 {
-    public class GenericLinkedListImplementation<T> : IEnumerable<T>
+    public class GenericLinkedListImplementation<T> : IEnumerable<Node<T>>
     {
         public Node<T> HeadNode;
         public GenericLinkedListImplementation()
@@ -238,14 +238,14 @@ namespace dojo
 
             }
         }
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<Node<T>> GetEnumerator()
         {
             if (HeadNode != null)
             {
                 var currentNode = HeadNode;
                 while (currentNode != null)
                 {
-                    yield return currentNode.Value;
+                    yield return currentNode;
                     currentNode = currentNode.NextNode;
                 }
             }

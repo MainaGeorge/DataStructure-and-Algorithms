@@ -35,7 +35,7 @@ namespace dojo
         public int Count => _underlyingLinkedList.Length;
         public IEnumerator<T> GetEnumerator()
         {
-            return _underlyingLinkedList.GetEnumerator();
+            return (IEnumerator<T>)_underlyingLinkedList.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
