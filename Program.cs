@@ -7,22 +7,25 @@ namespace dojo
     {
         private static void Main()
         {
-            var linked = new LinkedLIst<int>();
+            var dict = new DictionaryStructure { [0] = "zero", [4] = "four", [9] = "nine" };
 
-            linked.AddLast(7);
-            linked.AddLast(8);
-            linked.AddLast(9);
-            linked.AddLast(10);
-            linked.AddLast(11);
-            linked.PrintValues();
+            // dict.Add(9, "nine");
+            dict.Add(10, "ten");
+            dict.Add(14, "fourteen");
+            dict.Add(24, "twenty four");
+
+            Console.WriteLine(string.Join(" ", dict.Keys()));
+            Console.WriteLine(string.Join(" ", dict.Values()));
+            Console.WriteLine("dict has " + dict.Count + " items");
+
+            dict.Add(24, "twenty five by mistake");
+            dict.Remove(10);
+            Console.WriteLine(string.Join(" ", dict.Values()));
+            Console.WriteLine("dict has " + dict.Count + " items");
+
+
+
             
-            Console.WriteLine(linked.GetNthNodeFromEnd(6).Value + "4");
-
-
-
-            Console.WriteLine($"the list has {linked.Size} elements");
-
-
 
         }
 
