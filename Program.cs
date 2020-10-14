@@ -7,26 +7,32 @@ namespace dojo
     {
         private static void Main()
         {
-            var dict = new DictionaryStructure { [0] = "zero", [4] = "four", [9] = "nine" };
+            var arrayQueue = new ArrayQueue<int>();
+            arrayQueue.Enqueue(10);
+            arrayQueue.Enqueue(20);
+            arrayQueue.Enqueue(30);
 
-            // dict.Add(9, "nine");
-            dict.Add(10, "ten");
-            dict.Add(14, "fourteen");
-            dict.Add(24, "twenty four");
+            arrayQueue.Dequeue();
+            arrayQueue.Dequeue();
+            // Console.WriteLine(arrayQueue.Size);
 
-            Console.WriteLine(string.Join(" ", dict.Keys()));
-            Console.WriteLine(string.Join(" ", dict.Values()));
-            Console.WriteLine("dict has " + dict.Count + " items");
-
-            dict.Add(24, "twenty five by mistake");
-            dict.Remove(10);
-            Console.WriteLine(string.Join(" ", dict.Values()));
-            Console.WriteLine("dict has " + dict.Count + " items");
+            arrayQueue.Enqueue(40);
+            arrayQueue.Enqueue(50);
+            arrayQueue.Enqueue(60);
+            arrayQueue.Enqueue(70);
+            arrayQueue.Dequeue();
+            // Console.WriteLine(arrayQueue.Size);
 
 
 
-            
+            // Console.WriteLine(arrayQueue);
+            // Console.WriteLine(arrayQueue.Peek());
 
+
+            foreach (var elem in arrayQueue)
+            {
+                Console.WriteLine(elem);
+            }
         }
 
 
