@@ -7,32 +7,17 @@ namespace dojo
     {
         private static void Main()
         {
-            var arrayQueue = new ArrayQueue<int>();
-            arrayQueue.Enqueue(10);
-            arrayQueue.Enqueue(20);
-            arrayQueue.Enqueue(30);
+            var prior = new ArrayPriorityQueue();
+            prior.Add(10);
+            prior.Add(5);
+            prior.Add(3);
+            prior.Add(12);
 
-            arrayQueue.Dequeue();
-            arrayQueue.Dequeue();
-            // Console.WriteLine(arrayQueue.Size);
+            prior.Remove();
+            prior.Remove();
+            Console.WriteLine(prior.Peek());
 
-            arrayQueue.Enqueue(40);
-            arrayQueue.Enqueue(50);
-            arrayQueue.Enqueue(60);
-            arrayQueue.Enqueue(70);
-            arrayQueue.Dequeue();
-            // Console.WriteLine(arrayQueue.Size);
-
-
-
-            // Console.WriteLine(arrayQueue);
-            // Console.WriteLine(arrayQueue.Peek());
-
-
-            foreach (var elem in arrayQueue)
-            {
-                Console.WriteLine(elem);
-            }
+            Console.WriteLine(prior);
         }
 
 
