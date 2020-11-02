@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace dojo
 {
@@ -37,13 +36,7 @@ namespace dojo
         }
         private static int MakeAnInt(IEnumerable<int> source)
         {
-            var result = new StringBuilder();
-            foreach (var st in source)
-            {
-                result.Append(st);
-            }
-
-            return int.Parse(result.ToString());
+            return int.Parse(string.Join(string.Empty, source));
         }
         public static int FindLargestNumberCombinationInAnArray(int[] source)
         {
@@ -585,7 +578,9 @@ namespace dojo
         {
             //check whether in a given array of numbers, and a number of consecutive numbers to check, whether
             //any of them add up to the given amount they should sum to.
-            return source.Where((t, index) => source[index..].Take(consecutiveNumbers).Sum().Equals(amountTheySumUpTo)).Any();
+            return source
+                .Where((t, index) => source[index..].Take(consecutiveNumbers).Sum().Equals(amountTheySumUpTo))
+                .Any();
         }
         public static List<List<int>> TwoSumProblem(int[] source, int target)
         {
